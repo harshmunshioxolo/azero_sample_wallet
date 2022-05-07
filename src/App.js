@@ -1,8 +1,14 @@
 import logo from "./logo.svg";
 import { Login } from "./components/login/login";
+import {Navbar} from "./components/navbar/navbar";
+import { Base } from "./components/base/base";
+import img from "./azerobg.jpg";
+import {MakeAccount} from './components/accounts/accounts';
+import {NewWallet} from './components/accounts/generated';
+
 import {
   BrowserRouter as Router,
-  Switch,
+  Routes,
   Route,
   Link,
 } from "react-router-dom";
@@ -14,15 +20,24 @@ const test = {
   y_container: 150,
 };
 
+const ds_json = {
+  encoded: "",
+  encoding: {},
+  address: "",
+  meta: {},
+}
+
 function App() {
   return (
     <Router>
       <div>
-        <nav>
-          <Link to="/">
-            <Login {...test} />
-          </Link>
-        </nav>
+        <Navbar />
+        <Base />
+        <Routes>
+          <Route path="/" element={<Login {...test} />} />
+          <Route path="/makeaccount" element={<MakeAccount />} />
+          <Route path="/generate" element={<NewWallet />} />
+        </Routes>
       </div>
     </Router>
   );

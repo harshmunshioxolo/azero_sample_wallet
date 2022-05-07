@@ -1,0 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Major+Mono+Display&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Faster+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Macondo+Swash+Caps&display=swap');
+
+.wallet_navigation {
+    /* font-family: 'Major Mono Display'; */
+    font-family: 'Faster One';
+    font-size: xx-large;
+    text-align: center;
+    background-color: orange;
+    border-radius: 10px;
+}
