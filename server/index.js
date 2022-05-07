@@ -14,14 +14,25 @@ app.get("/", (req, res) => {
     res.json({message: "Hey hi! This is the backend. You can use other APIs and build on top of it."})
 });
 
+// a default enpoint to test the incoming params
+app.get("/test_params", (req, res) => {
+    const password = req.query.password;
+    const username = req.query.user;
+    res.json({message: "Welcome "+username});
+});
+
 
 // create and enpoint to generate the address
 app.get("/generate_account", (req, res) => {
+    // retrieve the values from the req
+    const username = req.query.user;
+    const paraphrase = req.query.password;
+
     // generate a random mnemonic, 12 words in length
     const mnemonic = mnemonicGenerate(12);
 
     // add the account, encrypt the stored JSON with an account-specific password
-    const { pair, json } = keyring.addUri(mnemonic, 'myStr0ngP@ssworD', { name: 'sample_acc' });
+    const { pair, json } = keyring.addUri(mnemonic, paraphrase, { name: username });
     res.json({address: json.address});
 
 });
