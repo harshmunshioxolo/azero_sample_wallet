@@ -11,6 +11,11 @@ const defaultFormFields = {
   confirmPassword: "",
 };
 
+const account = {
+  json: "",
+  pair: "",
+}
+
 export const MakeAccount = () => {
   let navigate = useNavigate();
   // create a state hook
@@ -35,27 +40,50 @@ export const MakeAccount = () => {
   //     }
   // }
 
+  
+  // write a new redirect function
   const handleRedirect = async (event) => {
+    // check for event default
     event.preventDefault();
-    if (password !== confirmPassword) {
-      alert("passwords do not match");
+    if (password != confirmPassword) {
+      alert('passwords do not match');
       return;
     }
+
     try {
-      console.log("here");
-      let res = await generate_account({accountName, password});
-      const {pair, jsonFile} = res;
-      console.log(res.json);
-    //   this.props.router.push({
-    //       pathname: 'generate',
-    //       state: res.json,
-    //   }
-    //   );
-      navigate("/generate", {replace: true, state: {jsonFile: jsonFile}});
-    } catch (error) {
+      // fetch from the API
+      const res = fetch('http://localhost:3001/generate_account', {
+        method: 'POST',
+        body: JSON.stringify(formFields),
+      });
+
+      console.log(res);
+    } catch(error) {
       console.log(error);
     }
   };
+
+  // const handleRedirect = async (event) => {
+  //   event.preventDefault();
+  //   if (password !== confirmPassword) {
+  //     alert("passwords do not match");
+  //     return;
+  //   }
+  //   try {
+  //     console.log("here");
+  //     let res = await generate_account({accountName, password});
+  //     const {pair, jsonFile} = res;
+  //     console.log(res.json);
+  //   //   this.props.router.push({
+  //   //       pathname: 'generate',
+  //   //       state: res.json,
+  //   //   }
+  //   //   );
+  //     navigate("/generate", {replace: true, state: {jsonFile: jsonFile}});
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   const handleChange = (event) => {
     const { name, value } = event.target;
