@@ -11,7 +11,7 @@ const defaultFormFields = {
   confirmPassword: "",
 };
 
-const account = {
+const defaultAccount = {
   json: "",
   pair: "",
 }
@@ -20,6 +20,7 @@ export const MakeAccount = () => {
   let navigate = useNavigate();
   // create a state hook
   const [formFields, setFormFields] = useState(defaultFormFields);
+  const [account, setAccount] = useState(defaultAccount);
   const { accountName, email, password, confirmPassword } = formFields;
 
   // const handleSubmit = async(event) => {
@@ -45,19 +46,24 @@ export const MakeAccount = () => {
   const handleRedirect = async (event) => {
     // check for event default
     event.preventDefault();
-    if (password != confirmPassword) {
+    if (password !== confirmPassword) {
       alert('passwords do not match');
       return;
     }
+    console.log(formFields);
 
     try {
-      // fetch from the API
-      const res = fetch('http://localhost:3001/generate_account', {
-        method: 'POST',
-        body: JSON.stringify(formFields),
-      });
 
-      console.log(res);
+      const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formFields)
+      };
+      // fetch from the API
+      const account_data = await fetch('http://localhost:3001/generate_account', requestOptions);
+      const {json, pair} = account_data.json();
+      console.log(json);
+
     } catch(error) {
       console.log(error);
     }
@@ -100,7 +106,7 @@ export const MakeAccount = () => {
           placeholder="Full Name"
           required
           onChange={handleChange}
-          name="displayName"
+          name="accountName"
         />
         {/* <label className='wallet_account-form_label'>Email</label> */}
         <input

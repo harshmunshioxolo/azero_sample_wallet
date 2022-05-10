@@ -2,12 +2,14 @@ const express = require('express');
 const { mnemonicGenerate } = require('@polkadot/util-crypto');
 const { keyring } = require('@polkadot/ui-keyring');
 const { cryptoWaitReady } = require('@polkadot/util-crypto');
+const cors = require('cors');
 
 // Defining a port
 const PORT = process.env.PORT || 3001;
 
 // Deining the app 
 const app = express();
+app.use(cors());
 
 /** 
  * create a default endpoint
@@ -34,10 +36,10 @@ app.post("/test_params", (req, res) => {
 
 // create and enpoint to generate the address
 app.post("/generate_account", (req, res) => {
-    console.log(req);
+
     // retrieve the values from the req
-    const username = req.accountName;
-    const paraphrase = req.password;
+    const username = req.query.accountName;
+    const paraphrase = req.query.password;
 
     // generate a random mnemonic, 12 words in length
     const mnemonic = mnemonicGenerate(12);
