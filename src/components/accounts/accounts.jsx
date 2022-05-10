@@ -59,6 +59,7 @@ export const MakeAccount = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formFields)
       };
+      
       // fetch from the API
       const account_data = await fetch('http://localhost:3001/generate_account', requestOptions);
       const {json, pair} = account_data.json();
