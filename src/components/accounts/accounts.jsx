@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./accounts.css";
 import {generate_account} from '../../scripts/generateAccount';
@@ -11,36 +11,14 @@ const defaultFormFields = {
   confirmPassword: "",
 };
 
-const defaultAccount = {
-  json: "",
-  pair: "",
-}
 
 export const MakeAccount = () => {
   let navigate = useNavigate();
   // create a state hook
   const [formFields, setFormFields] = useState(defaultFormFields);
-  const [account, setAccount] = useState(defaultAccount);
+  // create a state hook for account
+  const [account, setAccount] = useState({json: {}, pair: {}});
   const { accountName, email, password, confirmPassword } = formFields;
-
-  // const handleSubmit = async(event) => {
-  //     event.preventDefault();
-  //     if (password !== confirmPassword) {
-  //         alert("passwords do not match");
-  //         return;
-  //     }
-  //     try {
-  //         let res = await generate_account({accountName, password});
-  //         ren = true;
-  //         // parse another account on top
-  //         console.log(res.json.address);
-  //         console.log(ren);
-
-  //     } catch(error) {
-  //         console.log(error);
-  //     }
-  // }
-
   
   // write a new redirect function
   const handleRedirect = async (event) => {
@@ -61,9 +39,9 @@ export const MakeAccount = () => {
       };
       
       // fetch from the API
-      const account_data = await fetch('http://localhost:3001/generate_account', requestOptions);
-      const {json, pair} = account_data.json();
-      console.log(json);
+        fetch('http://localhost:3001/generate_account', requestOptions)
+        .then(data => data.json())
+        .then(d => console.log(d.json));
 
     } catch(error) {
       console.log(error);
