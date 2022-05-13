@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./accounts.css";
 import {generate_account} from '../../scripts/generateAccount';
+import {NewWallet} from './generated';
 
 const defaultFormFields = {
   accountName: "",
@@ -28,6 +29,10 @@ export const MakeAccount = () => {
       alert('passwords do not match');
       return;
     }
+
+    // return (
+    //   <NewWallet {...formFields} />
+    // );
     console.log(formFields);
 
     try {
@@ -39,36 +44,26 @@ export const MakeAccount = () => {
       };
       
       // fetch from the API
-        fetch('http://localhost:3001/generate_account', requestOptions)
-        .then(data => data.json())
-        .then(d => console.log(d.json));
+      const result = await fetch('http://localhost:3001/generate_account', requestOptions);
+      const data = await result.json();
+      const json_data = data.json;
+      const pair = data.pair;
+
+      // .then(data => {
+      //   let json_res = data.json().json;
+      //   let pair_res = data.json().pair;
+      //   setAccount({
+      //     json: json_res,
+      //     pair: pair_res
+      //   })
+      // });
+      
+      console.log(json_data);
 
     } catch(error) {
       console.log(error);
     }
   };
-
-  // const handleRedirect = async (event) => {
-  //   event.preventDefault();
-  //   if (password !== confirmPassword) {
-  //     alert("passwords do not match");
-  //     return;
-  //   }
-  //   try {
-  //     console.log("here");
-  //     let res = await generate_account({accountName, password});
-  //     const {pair, jsonFile} = res;
-  //     console.log(res.json);
-  //   //   this.props.router.push({
-  //   //       pathname: 'generate',
-  //   //       state: res.json,
-  //   //   }
-  //   //   );
-  //     navigate("/generate", {replace: true, state: {jsonFile: jsonFile}});
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -117,5 +112,6 @@ export const MakeAccount = () => {
         <button type="submit">Sign Up</button>
       </form>
     </div>
+
   );
 };
