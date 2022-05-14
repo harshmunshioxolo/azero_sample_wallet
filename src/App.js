@@ -21,10 +21,10 @@ const test = {
 };
 
 const ds_json = {
-  encoded: "",
-  encoding: {},
-  address: "",
-  meta: {},
+  accountName: "",
+  email: "",
+  password: "",
+  confirmPassord: "",
 }
 
 function App() {
@@ -36,7 +36,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Login {...test} />} />
           <Route path="/makeaccount" element={<MakeAccount />} />
-          <Route path="/generate" element={<NewWallet />} />
+          <Route path="makeaccount/create" element={<NewWallet {...ds_json} />} />
         </Routes>
       </div>
     </Router>

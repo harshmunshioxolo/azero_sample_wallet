@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Redirect } from "react-router-dom";
 import "./accounts.css";
 import {generate_account} from '../../scripts/generateAccount';
 import {NewWallet} from './generated';
@@ -11,6 +11,7 @@ const defaultFormFields = {
   password: "",
   confirmPassword: "",
 };
+
 
 
 export const MakeAccount = () => {
@@ -29,40 +30,41 @@ export const MakeAccount = () => {
       alert('passwords do not match');
       return;
     }
+    navigate('./create', {state: {...formFields}});
 
     // return (
     //   <NewWallet {...formFields} />
     // );
-    console.log(formFields);
+    // console.log(formFields);
 
-    try {
+    // try {
 
-      const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formFields)
-      };
+    //   const requestOptions = {
+    //     method: 'POST',
+    //     headers: { 'Content-Type': 'application/json' },
+    //     body: JSON.stringify(formFields)
+    //   };
       
-      // fetch from the API
-      const result = await fetch('http://localhost:3001/generate_account', requestOptions);
-      const data = await result.json();
-      const json_data = data.json;
-      const pair = data.pair;
+    //   // fetch from the API
+    //   const result = await fetch('http://localhost:3001/generate_account', requestOptions);
+    //   const data = await result.json();
+    //   const json_data = data.json;
+    //   const pair = data.pair;
 
-      // .then(data => {
-      //   let json_res = data.json().json;
-      //   let pair_res = data.json().pair;
-      //   setAccount({
-      //     json: json_res,
-      //     pair: pair_res
-      //   })
-      // });
+    //   // .then(data => {
+    //   //   let json_res = data.json().json;
+    //   //   let pair_res = data.json().pair;
+    //   //   setAccount({
+    //   //     json: json_res,
+    //   //     pair: pair_res
+    //   //   })
+    //   // });
       
-      console.log(json_data);
+    //   console.log(json_data);
 
-    } catch(error) {
-      console.log(error);
-    }
+    // } catch(error) {
+    //   console.log(error);
+    // }
   };
 
   const handleChange = (event) => {
@@ -70,6 +72,7 @@ export const MakeAccount = () => {
     setFormFields({ ...formFields, [name]: value });
   };
 
+ 
   return (
     <div className="wallet_account-register">
       <form className="wallet_account-form" onSubmit={handleRedirect}>
@@ -111,7 +114,7 @@ export const MakeAccount = () => {
         />
         <button type="submit">Sign Up</button>
       </form>
-    </div>
+    </div> 
+    )
 
-  );
 };
